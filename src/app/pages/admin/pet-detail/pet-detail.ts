@@ -166,6 +166,10 @@ export class PetDetail implements OnInit {
   async saveDeathDate(deathDate: string) {
     const pet = this.pet();
     if (!pet) return;
+    if (deathDate > new Date().toISOString().split('T')[0]) {
+      alert('Data de morte não pode ser no futuro.');
+      return;
+    }
     try {
       await this.supabase.updatePet(pet.id, { death_date: deathDate });
       this.ngZone.run(() => {

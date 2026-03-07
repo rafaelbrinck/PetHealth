@@ -90,7 +90,11 @@ export class PetForm implements OnInit {
     this.error = '';
 
     const value = this.form.value;
-
+    if (value.birth_date && value.birth_date > new Date().toISOString().split('T')[0]) {
+      this.error = 'Data de nascimento não pode ser no futuro.';
+      this.loading = false;
+      return;
+    }
     try {
       if (this.isEdit && this.petId) {
         await this.supabase.updatePet(this.petId, {
