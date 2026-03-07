@@ -42,6 +42,10 @@ export class PetDetail implements OnInit {
     date: [new Date().toISOString().split('T')[0], Validators.required],
   });
 
+  readonly deathForm = this.fb.group({
+    death_date: ['', Validators.required],
+  });
+
   get petId(): string | null {
     return this.pet()?.id ?? null;
   }
@@ -123,6 +127,15 @@ export class PetDetail implements OnInit {
   }
 
   readonly isWeightSheetOpen = signal(false);
+  readonly isDeathSheetOpen = signal(false);
+
+  openDeathSheet() {
+    this.isDeathSheetOpen.set(true);
+  }
+
+  closeDeathSheet() {
+    this.isDeathSheetOpen.set(false);
+  }
 
   openWeightSheet() {
     this.isWeightSheetOpen.set(true);
@@ -141,6 +154,20 @@ export class PetDetail implements OnInit {
       this.showWeightForm.set(false);
     } catch (e) {
       console.error('erro salvando peso', e);
+    }
+  }
+
+  async saveDeathDate(deathDate: string) {
+    const pet = this.pet();
+    if (!pet) return;
+    try {
+      await this.supabase.updatePet(pet.id, { death_date: deathDate });
+      this.ngZone.run(() => {
+        this.pet.set({ ...pet, death_date: deathDate });
+        this.closeDeathSheet();
+      });
+    } catch (e) {
+      console.error('erro salvando data de morte', e);
     }
   }
 
@@ -171,5 +198,10 @@ export class PetDetail implements OnInit {
     }
 
     return `${years}a ${months}m`;
+  }
+
+  formatDate(dateStr: string | null): string {
+    if (!dateStr) return '—';
+    return new Date(dateStr).toLocaleDateString('pt-BR');
   }
 }

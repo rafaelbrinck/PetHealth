@@ -21,8 +21,14 @@
   </div>
 } @else {
   <div class="space-y-6 md:space-y-8">
-    <!-- Header do pet -->
-    <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-5 flex items-center gap-4">
+    <div class="rounded-2xl shadow-md border border-slate-100 p-5 flex items-center gap-4 relative overflow-hidden"
+         [class.bg-white]="!pet()?.death_date"
+         [class.bg-slate-50]="pet()?.death_date">
+      @if (pet()?.death_date) {
+        <div class="absolute top-0 right-0 bg-slate-800 text-white text-xs px-3 py-1 rounded-bl-lg font-medium">
+          Falecido
+        </div>
+      }
       <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
         @if (pet()?.photo_url) {
           <img
@@ -42,28 +48,47 @@
         }
       </div>
       <div class="flex-1 min-w-0">
-        <h1 class="text-xl font-bold text-slate-900 truncate">{{ pet()?.name }}</h1>
+        <h1 class="text-xl font-bold truncate"
+            [class.text-slate-900]="!pet()?.death_date"
+            [class.text-slate-600]="pet()?.death_date">{{ pet()?.name }}</h1>
         <p class="text-slate-600 text-sm mt-0.5 truncate">
           {{ pet()?.species }} @if (pet()?.breed) { · {{ pet()?.breed }} }
         </p>
         <p class="text-slate-400 text-xs mt-0.5">
           {{ formatAge(pet()?.birth_date ?? null) }} · {{ pet()?.gender | titlecase }}
+          @if (pet()?.death_date) {
+            · Falecido em {{ formatDate(pet()?.death_date!) }}
+          }
         </p>
       </div>
-      <div class="shrink-0">
-        <a
-          [routerLink]="['/admin/pets/edit', pet()?.id]"
-          class="inline-flex items-center justify-center px-4 py-2 rounded-xl border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors"
+      
+      <div class="shrink-0 flex gap-2 items-center">
+        <button
+          type="button"
+          (click)="openDeathSheet()"
+          [disabled]="pet()?.death_date"
+          class="inline-flex items-center justify-center p-2.5 rounded-xl border border-red-200 bg-red-50 text-red-700 font-medium hover:bg-red-100 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:border-slate-200 disabled:text-slate-400"
+          title="Registrar falecimento"
         >
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20M5 8h14" />
           </svg>
-          Editar
-        </a>
+        </button>
+        
+        @if (!pet()?.death_date) {
+          <a
+            [routerLink]="['/admin/pets/edit', pet()?.id]"
+            class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Editar
+          </a>
+        }
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="bg-slate-100 rounded-2xl p-1 flex">
       <button
         type="button"
@@ -107,7 +132,6 @@
       </button>
     </div>
 
-    <!-- Conteúdo das abas -->
     <div>
       @if (activeTab() === 'history' && petId) {
         <app-medical-timeline [petId]="petId" />
@@ -178,15 +202,12 @@
   </div>
 }
 
-<!-- Bottom Sheet: Registrar novo peso -->
 @if (isWeightSheetOpen()) {
-  <!-- Overlay -->
   <div
     class="fixed inset-0 bg-slate-900/50 z-40 transition-opacity"
     (click)="closeWeightSheet()"
   ></div>
 
-  <!-- Gaveta inferior -->
   <div
     class="fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl pt-3 pb-6 px-6 transform transition-transform duration-300 ease-in-out translate-y-0"
     style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 88px);"
@@ -235,6 +256,56 @@
             class="inline-flex items-center px-4 py-3 rounded-xl bg-indigo-600 text-white text-sm font-medium shadow-sm hover:bg-indigo-700 disabled:bg-indigo-400 transition-colors"
           >
             Salvar peso
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+@if (isDeathSheetOpen()) {
+  <div
+    class="fixed inset-0 bg-slate-900/50 z-40 transition-opacity"
+    (click)="closeDeathSheet()"
+  ></div>
+
+  <div
+    class="fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl pt-3 pb-6 px-6 transform transition-transform duration-300 ease-in-out translate-y-0"
+    style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 88px);"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mb-4"></div>
+    <div class="max-h-[70vh] overflow-y-auto -mx-1 px-1">
+      <h2 class="text-lg font-semibold text-slate-900 mb-1">Registrar data de falecimento</h2>
+      <p class="text-slate-500 text-xs mb-4">
+        Registre a data em que o pet faleceu.
+      </p>
+      <form
+        [formGroup]="deathForm"
+        (ngSubmit)="saveDeathDate(deathForm.value.death_date!)"
+        class="space-y-4"
+      >
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Data de falecimento</label>
+          <input
+            type="date"
+            formControlName="death_date"
+            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+          />
+        </div>
+        <div class="mt-4 flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="closeDeathSheet()"
+            class="inline-flex items-center px-4 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm font-medium hover:bg-slate-200 transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            [disabled]="deathForm.invalid"
+            class="inline-flex items-center px-4 py-3 rounded-xl bg-indigo-600 text-white text-sm font-medium shadow-sm hover:bg-indigo-700 disabled:bg-indigo-400 transition-colors"
+          >
+            Salvar
           </button>
         </div>
       </form>

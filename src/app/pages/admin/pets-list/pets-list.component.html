@@ -140,22 +140,38 @@
             [routerLink]="['/admin/pets', pet.id]"
             class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 hover:shadow-lg transition-shadow text-left w-full"
           >
-            <div class="h-32 bg-slate-100 flex items-center justify-center">
+            <div class="h-32 flex items-center justify-center relative"
+                 [class.bg-slate-100]="!pet.death_date"
+                 [class.bg-slate-200]="pet.death_date">
               @if (pet.photo_url) {
                 <img [src]="pet.photo_url" [alt]="pet.name" class="w-full h-full object-cover" />
               } @else {
-                <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center">
-                  <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center"
+                     [class.bg-indigo-100]="!pet.death_date"
+                     [class.bg-slate-300]="pet.death_date">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                       [class.text-indigo-600]="!pet.death_date"
+                       [class.text-slate-500]="pet.death_date">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
               }
+              @if (pet.death_date) {
+                <div class="absolute top-2 right-2 bg-slate-800 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  Falecido
+                </div>
+              }
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-semibold text-slate-800">{{ pet.name }}</h3>
+              <h3 class="text-lg font-semibold text-slate-800"
+                  [class.text-slate-600]="pet.death_date">{{ pet.name }}</h3>
               <p class="text-slate-500 text-sm mt-1">{{ pet.species }}</p>
               <p class="text-slate-400 text-xs mt-1">
-                Nascimento: <span class="font-medium">{{ formatDate(pet.birth_date) }}</span>
+                @if (pet.death_date) {
+                  Falecimento: <span class="font-medium">{{ formatDate(pet.death_date) }}</span>
+                } @else {
+                  Nascimento: <span class="font-medium">{{ formatDate(pet.birth_date) }}</span>
+                }
               </p>
             </div>
           </button>

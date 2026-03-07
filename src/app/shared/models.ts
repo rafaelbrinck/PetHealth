@@ -11,6 +11,7 @@ export interface Pet {
   species: string;
   breed?: string;
   birth_date: string | null;
+  death_date?: string | null;
   gender: string;
   photo_url?: string | null;
   // nova informação de instruções e contato veterinário
