@@ -8,6 +8,7 @@ import { Pet, WeightLog } from '../../../shared/models';
 import { VaccineList } from '../vaccine-list/vaccine-list';
 import { MedicalTimeline } from '../medical-timeline/medical-timeline';
 import { ChartComponent } from 'ng-apexcharts';
+import { PetIconComponent } from '../../../shared/components/pet-icon/pet-icon.component';
 
 @Component({
   selector: 'app-pet-detail',
@@ -21,6 +22,7 @@ import { ChartComponent } from 'ng-apexcharts';
     FormsModule,
     ReactiveFormsModule,
     ChartComponent,
+    PetIconComponent,
   ],
   templateUrl: './pet-detail.html',
 })

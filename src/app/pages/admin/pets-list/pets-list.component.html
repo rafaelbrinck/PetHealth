@@ -149,11 +149,7 @@
                 <div class="w-16 h-16 rounded-full flex items-center justify-center"
                      [class.bg-indigo-100]="!pet.death_date"
                      [class.bg-slate-300]="pet.death_date">
-                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       [class.text-indigo-600]="!pet.death_date"
-                       [class.text-slate-500]="pet.death_date">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
+                  <app-pet-icon [species]="pet.species" [isDead]="!!pet.death_date"></app-pet-icon>
                 </div>
               }
               @if (pet.death_date) {

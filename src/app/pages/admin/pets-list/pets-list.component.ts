@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { Pet } from '../../../shared/models';
+import { PetIconComponent } from '../../../shared/components/pet-icon/pet-icon.component';
 
 @Component({
   selector: 'app-pets-list',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, PetIconComponent],
   templateUrl: './pets-list.component.html',
 })
 export class PetsListComponent implements OnInit {
