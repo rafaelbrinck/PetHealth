@@ -47,6 +47,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/admin/pet-form/pet-form').then((m) => m.PetForm),
       },
       {
+        path: 'pets/edit/:id',
+        loadComponent: () => import('./pages/admin/pet-form/pet-form').then((m) => m.PetForm),
+      },
+      {
         path: 'pets/:id',
         loadComponent: () => import('./pages/admin/pet-detail/pet-detail').then((m) => m.PetDetail),
       },

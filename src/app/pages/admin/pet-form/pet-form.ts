@@ -1,7 +1,8 @@
-import { Component, inject, NgZone } from '@angular/core';
+import { Component, inject, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { Pet } from '../../../shared/models';
 
 @Component({
   selector: 'app-pet-form',
@@ -9,11 +10,12 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './pet-form.html',
 })
-export class PetForm {
+export class PetForm implements OnInit {
   private fb = inject(FormBuilder);
   private supabase = inject(SupabaseService);
   private router = inject(Router);
   private ngZone = inject(NgZone);
+  private route = inject(ActivatedRoute);
 
   readonly form = this.fb.group({
     name: ['', [Validators.required]],
@@ -25,6 +27,39 @@ export class PetForm {
 
   loading = false;
   error = '';
+  isEdit = false;
+  petId: string | null = null;
+
+  async ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.petId = id;
+      await this.loadPetData(id);
+    }
+  }
+
+  private async loadPetData(id: string) {
+    this.loading = true;
+    try {
+      const pet = await this.supabase.getPetById(id);
+      if (pet) {
+        this.form.patchValue({
+          name: pet.name,
+          species: pet.species,
+          breed: pet.breed || '',
+          birth_date: pet.birth_date || '',
+          gender: pet.gender,
+        });
+      } else {
+        this.error = 'Pet não encontrado.';
+      }
+    } catch (e: unknown) {
+      this.error = e instanceof Error ? e.message : 'Erro ao carregar pet';
+    } finally {
+      this.loading = false;
+    }
+  }
 
   getFieldError(controlName: string): string | null {
     const control = this.form.get(controlName);
@@ -49,13 +84,23 @@ export class PetForm {
     const value = this.form.value;
 
     try {
-      await this.supabase.createPet({
-        name: value.name ?? '',
-        species: value.species ?? '',
-        breed: value.breed ?? undefined,
-        birth_date: value.birth_date ?? null,
-        gender: value.gender ?? '',
-      });
+      if (this.isEdit && this.petId) {
+        await this.supabase.updatePet(this.petId, {
+          name: value.name ?? '',
+          species: value.species ?? '',
+          breed: value.breed ?? undefined,
+          birth_date: value.birth_date ?? null,
+          gender: value.gender ?? '',
+        });
+      } else {
+        await this.supabase.createPet({
+          name: value.name ?? '',
+          species: value.species ?? '',
+          breed: value.breed ?? undefined,
+          birth_date: value.birth_date ?? null,
+          gender: value.gender ?? '',
+        });
+      }
       this.ngZone.run(() => this.router.navigate(['/admin/pets']));
     } catch (e: unknown) {
       this.ngZone.run(() => {

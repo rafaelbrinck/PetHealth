@@ -1,7 +1,7 @@
 <div class="space-y-6 md:space-y-8">
   <div class="space-y-1">
-    <h1 class="text-2xl font-bold text-slate-800">Novo Pet</h1>
-    <p class="text-slate-500 text-sm">Cadastre um novo animal para acompanhar a saúde dele.</p>
+    <h1 class="text-2xl font-bold text-slate-800">{{ isEdit ? 'Editar Pet' : 'Novo Pet' }}</h1>
+    <p class="text-slate-500 text-sm">{{ isEdit ? 'Edite as informações do animal.' : 'Cadastre um novo animal para acompanhar a saúde dele.' }}</p>
   </div>
 
   @if (error) {
@@ -93,7 +93,7 @@
         [disabled]="loading"
         class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-3 min-h-[48px] rounded-xl bg-indigo-600 text-white text-sm font-medium shadow-sm hover:bg-indigo-700 disabled:bg-indigo-400 transition-colors"
       >
-        {{ loading ? 'Salvando...' : 'Salvar pet' }}
+        {{ loading ? 'Salvando...' : (isEdit ? 'Atualizar pet' : 'Salvar pet') }}
       </button>
     </div>
   </form>
