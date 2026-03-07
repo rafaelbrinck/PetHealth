@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, NgZone } from '@angular/core';
+import { Component, Input, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -16,6 +16,7 @@ export class VaccineList implements OnInit {
   private fb = inject(FormBuilder);
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   vaccines: Vaccine[] = [];
   loading = true;
@@ -41,13 +42,16 @@ export class VaccineList implements OnInit {
       const list = await this.supabase.getVaccinesByPet(this.petId);
       this.ngZone.run(() => {
         this.vaccines = list;
-        this.loading = false;
         this.error = '';
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao carregar vacinas';
+      });
+    } finally {
+      this.ngZone.run(() => {
         this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

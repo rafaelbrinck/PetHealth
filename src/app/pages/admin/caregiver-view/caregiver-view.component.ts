@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, NgZone } from '@angular/core';
+import { Component, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -14,6 +14,7 @@ export class CaregiverViewComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   pet: Pet | null = null;
   meds: MedicalRecord[] = [];
@@ -67,12 +68,15 @@ export class CaregiverViewComponent implements OnInit {
         this.meds = records.filter(
           (r) => r.type === 'consulta' || r.type === 'exame' || r.type === 'cirurgia',
         );
-        this.loading = false;
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao carregar dados';
+      });
+    } finally {
+      this.ngZone.run(() => {
         this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, NgZone } from '@angular/core';
+import { Component, OnInit, inject, signal, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -21,9 +21,10 @@ interface Alert {
 export class DashboardComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   // Signals para estado reativo
-  readonly isLoading = signal(true);
+  loading = true;
   readonly totalPets = signal(0);
   readonly monthlyExpenses = signal(0);
   readonly lowStockCount = signal(0);
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private async loadDashboardData() {
-    this.isLoading.set(true);
+    this.loading = true;
     try {
       // Carrega email do usuário
       const user = this.supabase.currentUser;
@@ -115,11 +116,14 @@ export class DashboardComponent implements OnInit {
         });
 
         this.upcomingAlerts.set(alerts.slice(0, 5));
-        this.isLoading.set(false);
       });
     } catch (e) {
       console.error('Erro na dashboard:', e);
-      this.ngZone.run(() => this.isLoading.set(false));
+    } finally {
+      this.ngZone.run(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      });
     }
   }
 

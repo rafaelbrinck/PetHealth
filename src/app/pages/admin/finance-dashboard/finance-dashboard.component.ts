@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { Component, NgZone, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -14,6 +14,7 @@ import { ExpenseFormComponent } from '../expense-form/expense-form.component';
 export class FinanceDashboardComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   expenses: Expense[] = [];
   loading = true;
@@ -40,14 +41,17 @@ export class FinanceDashboardComponent implements OnInit {
       const list = await this.supabase.getExpenses();
       this.ngZone.run(() => {
         this.expenses = list;
-        this.loading = false;
         this.error = '';
         this.updateCategoryOptions(list);
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao carregar despesas';
+      });
+    } finally {
+      this.ngZone.run(() => {
         this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

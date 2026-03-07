@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, NgZone } from '@angular/core';
+import { Component, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { InventoryFormComponent } from '../inventory-form/inventory-form.compone
 export class InventoryListComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
   items: InventoryItem[] = [];
@@ -39,14 +40,17 @@ export class InventoryListComponent implements OnInit {
       const list = await this.supabase.getInventoryItems();
       this.ngZone.run(() => {
         this.items = list;
-        this.loading = false;
         this.error = '';
         this.updateCategoryOptions(list);
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao carregar estoques';
+      });
+    } finally {
+      this.ngZone.run(() => {
         this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

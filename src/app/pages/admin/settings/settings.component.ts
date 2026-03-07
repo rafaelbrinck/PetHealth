@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, NgZone } from '@angular/core';
+import { Component, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -12,6 +12,7 @@ import { SupabaseService } from '../../../core/services/supabase.service';
 export class SettingsComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -33,12 +34,15 @@ export class SettingsComponent implements OnInit {
       const list = await this.supabase.getSharedUsers();
       this.ngZone.run(() => {
         this.sharedUsers = list;
-        this.loading = false;
       });
     } catch (e: any) {
       this.ngZone.run(() => {
-        this.loading = false;
         this.showToast('Erro ao carregar membros: ' + (e?.message ?? e), 'error');
+      });
+    } finally {
+      this.ngZone.run(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

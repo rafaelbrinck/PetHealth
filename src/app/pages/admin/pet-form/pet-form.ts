@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -15,6 +15,7 @@ export class PetForm implements OnInit {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
 
   readonly form = this.fb.group({
@@ -43,21 +44,28 @@ export class PetForm implements OnInit {
     this.loading = true;
     try {
       const pet = await this.supabase.getPetById(id);
-      if (pet) {
-        this.form.patchValue({
-          name: pet.name,
-          species: pet.species,
-          breed: pet.breed || '',
-          birth_date: pet.birth_date || '',
-          gender: pet.gender,
-        });
-      } else {
-        this.error = 'Pet não encontrado.';
-      }
+      this.ngZone.run(() => {
+        if (pet) {
+          this.form.patchValue({
+            name: pet.name,
+            species: pet.species,
+            breed: pet.breed || '',
+            birth_date: pet.birth_date || '',
+            gender: pet.gender,
+          });
+        } else {
+          this.error = 'Pet não encontrado.';
+        }
+      });
     } catch (e: unknown) {
-      this.error = e instanceof Error ? e.message : 'Erro ao carregar pet';
+      this.ngZone.run(() => {
+        this.error = e instanceof Error ? e.message : 'Erro ao carregar pet';
+      });
     } finally {
-      this.loading = false;
+      this.ngZone.run(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      });
     }
   }
 
@@ -105,10 +113,12 @@ export class PetForm implements OnInit {
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao salvar pet';
-        this.loading = false;
       });
     } finally {
-      this.ngZone.run(() => (this.loading = false));
+      this.ngZone.run(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      });
     }
   }
 }

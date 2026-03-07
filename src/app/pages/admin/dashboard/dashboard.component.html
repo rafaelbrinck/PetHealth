@@ -6,7 +6,7 @@
   </div>
 
   <!-- SEÇÃO 2: Medicamentos de Hoje -->
-  <div *ngIf="!isLoading()" class="space-y-4">
+  <div *ngIf="!loading" class="space-y-4">
     <h2 class="text-lg font-semibold text-slate-800">Medicamentos de Hoje</h2>
     <div *ngIf="todaysMeds().length > 0; else noMeds" class="space-y-3">
       <div *ngFor="let log of todaysMeds()" class="flex items-center justify-between bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
@@ -30,7 +30,7 @@
   </div>
 
   <!-- SEÇÃO 2: KPIs (Grid de Resumo) -->
-  <div *ngIf="!isLoading()" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div *ngIf="!loading" class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <!-- Card 1: Total de Pets -->
     <div class="bg-indigo-50 rounded-2xl p-4 border border-indigo-100">
       <div class="flex items-start justify-between">
@@ -85,7 +85,7 @@
   </div>
 
   <!-- Skeleton loading para KPIs -->
-  <div *ngIf="isLoading()" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  <div *ngIf="loading" class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="bg-slate-100 rounded-2xl p-4 h-24 animate-pulse"></div>
     <div class="bg-slate-100 rounded-2xl p-4 h-24 animate-pulse"></div>
     <div class="bg-slate-100 rounded-2xl p-4 h-24 animate-pulse"></div>

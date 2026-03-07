@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, NgZone } from '@angular/core';
+import { Component, Input, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -16,6 +16,7 @@ export class MedicalTimeline implements OnInit {
   private fb = inject(FormBuilder);
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   records: MedicalRecord[] = [];
   loading = true;
@@ -40,13 +41,16 @@ export class MedicalTimeline implements OnInit {
       const list = await this.supabase.getMedicalRecordsByPet(this.petId);
       this.ngZone.run(() => {
         this.records = list;
-        this.loading = false;
         this.error = '';
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error = e instanceof Error ? e.message : 'Erro ao carregar histórico médico';
+      });
+    } finally {
+      this.ngZone.run(() => {
         this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, NgZone } from '@angular/core';
+import { Component, OnInit, inject, signal, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
@@ -30,10 +30,11 @@ export class PetDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
 
   readonly pet = signal<Pet | null>(null);
-  readonly loading = signal(true);
+  loading = true;
   readonly error = signal('');
   readonly activeTab = signal<'history' | 'vaccines' | 'care' | 'weight'>('history');
 
@@ -56,7 +57,7 @@ export class PetDetail implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.error.set('Pet não encontrado.');
-      this.loading.set(false);
+      this.loading = false;
       return;
     }
     this.loadWeightData(id);
@@ -70,12 +71,15 @@ export class PetDetail implements OnInit {
           this.pet.set(data);
           this.error.set('');
         }
-        this.loading.set(false);
       });
     } catch (e: unknown) {
       this.ngZone.run(() => {
         this.error.set(e instanceof Error ? e.message : 'Erro ao carregar pet');
-        this.loading.set(false);
+      });
+    } finally {
+      this.ngZone.run(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
       });
     }
   }
