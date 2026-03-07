@@ -227,6 +227,8 @@ export class SupabaseService {
   async signOut() {
     const { error } = await this.supabase.auth.signOut();
     if (error) throw error;
+    // Reset session subject
+    this.sessionSubject.next(null);
   }
 
   async getPets(): Promise<Pet[]> {

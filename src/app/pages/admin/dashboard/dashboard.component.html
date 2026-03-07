@@ -123,8 +123,8 @@
       </a>
 
       <!-- Botão 3: Cadastrar Pet -->
-      <a
-        routerLink="/admin/pets/new"
+      <button
+        (click)="navigateToAddPet()"
         class="flex flex-col items-center gap-2 p-3 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-rose-200 transition-all"
       >
         <div class="bg-rose-50 p-3 rounded-full">
@@ -133,7 +133,7 @@
           </svg>
         </div>
         <span class="text-xs font-medium text-slate-700 text-center">Novo Pet</span>
-      </a>
+      </button>
 
       <!-- Botão 4: Ver Pets -->
       <a

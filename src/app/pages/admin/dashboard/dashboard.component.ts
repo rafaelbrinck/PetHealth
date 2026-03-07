@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { Pet, Vaccine, Expense, InventoryItem } from '../../../shared/models';
 
@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   // Signals para estado reativo
   loading = true;
@@ -34,6 +35,10 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadDashboardData();
+  }
+
+  navigateToAddPet() {
+    this.router.navigate(['/admin/pets/new']);
   }
 
   private async loadDashboardData() {

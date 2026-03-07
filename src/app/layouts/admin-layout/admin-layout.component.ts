@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { SupabaseService } from '../../core/services/supabase.service';
 
 @Component({
@@ -10,8 +10,16 @@ import { SupabaseService } from '../../core/services/supabase.service';
 })
 export class AdminLayoutComponent {
   protected supabase = inject(SupabaseService);
+  private router = inject(Router);
 
-  signOut() {
-    this.supabase.signOut();
+  async signOut() {
+    try {
+      await this.supabase.signOut();
+      await this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+      // Mesmo com erro, tenta navegar para login
+      await this.router.navigate(['/login']);
+    }
   }
 }

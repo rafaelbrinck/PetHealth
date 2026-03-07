@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { Pet } from '../../../shared/models';
@@ -15,6 +15,7 @@ export class PetsListComponent implements OnInit {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   petsList: Pet[] = [];
   loading = true;
@@ -71,6 +72,10 @@ export class PetsListComponent implements OnInit {
 
   setSpeciesFilter(species: string) {
     this.selectedSpecies = species;
+  }
+
+  navigateToAddPet() {
+    this.router.navigate(['/admin/pets/new']);
   }
 
   private updateSpeciesOptions(list: Pet[]) {
