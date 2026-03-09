@@ -77,11 +77,15 @@ export interface Medication {
   id?: string;
   pet_id: string;
   name: string;
-  dosage: string;
-  start_date: string;
-  end_date?: string;
-  is_active: boolean;
-  pet_name?: string;
+  dosage?: string; // A dosagem que você sabiamente incluiu!
+  start_date: string; // Agora virá com data e hora
+  end_date: string; // Agora virá com data e hora
+  interval_hours: number;
+  is_active?: boolean;
+
+  // Propriedades calculadas no Front-end (não vão pro banco)
+  next_dose?: Date | null;
+  is_finished?: boolean;
 }
 
 export interface WeightLog {

@@ -1,0 +1,260 @@
+<div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+  
+  <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      
+      <div class="flex items-center gap-2 cursor-pointer">
+        <div class="bg-indigo-600 p-2 rounded-xl">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight text-slate-800">My Pet Health</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        
+        <a routerLink="/login" class="hidden sm:block text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors">
+          Acessar Conta
+        </a>
+        <a routerLink="/register" class="hidden sm:inline-block bg-slate-900 text-white text-sm font-bold px-6 py-3 rounded-full hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-200 transition-all active:scale-95">
+          Criar Conta Grátis
+        </a>
+
+        <a routerLink="/login" class="sm:hidden bg-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-full hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-200 transition-all active:scale-95">
+          Acessar Conta
+        </a>
+        
+      </div>
+    </div>
+  </nav>
+
+  <section class="relative pt-40 pb-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-sm font-bold mb-8 animate-fade-in-up">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+        </span>
+        A revolução no cuidado animal
+      </div>
+      
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-4xl mx-auto leading-tight">
+        A previsibilidade que a saúde do seu pet <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">precisava.</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+        Substitua o caderninho de vacinas e as planilhas por um painel inteligente. Controle histórico médico, finanças, medicações e muito mais em um só lugar.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
+        <a routerLink="/register" class="w-full sm:w-auto bg-indigo-600 text-white text-lg font-bold px-10 py-4 rounded-full shadow-xl shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
+          Começar Agora
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+      </div>
+
+      <div class="relative max-w-5xl mx-auto">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-50 to-transparent z-10 top-1/2"></div>
+        <div class="bg-white rounded-t-3xl border-t border-x border-slate-200 shadow-2xl overflow-hidden">
+          <div class="bg-slate-100 px-4 py-3 flex items-center gap-2 border-b border-slate-200">
+            <div class="w-3 h-3 rounded-full bg-rose-400"></div>
+            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+            <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+          </div>
+          <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6 opacity-90 h-64 md:h-96">
+            <div class="col-span-1 md:col-span-2 bg-slate-50 rounded-2xl border border-slate-100 p-6">
+              <div class="h-6 w-1/3 bg-slate-200 rounded-lg mb-6"></div>
+              <div class="space-y-3"><div class="h-4 w-full bg-slate-200 rounded-md"></div><div class="h-4 w-5/6 bg-slate-200 rounded-md"></div><div class="h-4 w-4/6 bg-slate-200 rounded-md"></div></div>
+            </div>
+            <div class="col-span-1 bg-indigo-50 rounded-2xl border border-indigo-100 p-6 flex flex-col items-center justify-center">
+               <div class="w-20 h-20 bg-indigo-200 rounded-full mb-4"></div>
+               <div class="h-5 w-24 bg-indigo-300 rounded-lg mb-2"></div>
+               <div class="h-3 w-16 bg-indigo-200 rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-indigo-100/60 to-transparent rounded-full blur-3xl -z-10 pointer-events-none"></div>
+  </section>
+
+  <section class="py-20 border-y border-slate-200 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50/50 via-white to-white pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+      <div class="mb-14">
+        <p class="text-sm font-extrabold text-indigo-600 uppercase tracking-widest mb-3">Sem restrições de espécie</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Desenvolvido para todos os membros da família</h2>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+        
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-orange-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🐕
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Cães</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Todas as raças</p>
+          </div>
+        </div>
+
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🐈
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Gatos</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Felinos em geral</p>
+          </div>
+        </div>
+
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 hover:border-amber-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-amber-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🐁
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Roedores</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Ratos, Hamsters...</p>
+          </div>
+        </div>
+
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-pink-500/10 hover:border-pink-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-pink-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🐇
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Coelhos</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Lagomorfos</p>
+          </div>
+        </div>
+
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:border-sky-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-sky-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🦜
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Aves</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Calopsitas, Araras...</p>
+          </div>
+        </div>
+
+        <div class="group relative bg-white rounded-[2rem] p-5 lg:p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-default">
+          <div class="absolute inset-0 bg-gradient-to-b from-emerald-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative z-10 flex flex-col items-center text-center">
+            <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300 group-hover:bg-white group-hover:shadow-sm">
+              🐍
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">Exóticos</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Répteis e Anfíbios</p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 max-w-2xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Um ecossistema completo para a saúde animal</h2>
+        <p class="text-slate-500 text-lg">Muito mais do que um diário. Uma ferramenta administrativa completa, seja para um único pet ou para criadores.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        
+        <div class="md:col-span-2 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+          <div class="absolute -right-10 -top-10 bg-rose-50 w-64 h-64 rounded-full blur-3xl group-hover:bg-rose-100 transition-colors"></div>
+          <div class="relative z-10">
+            <div class="bg-rose-100 text-rose-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Ficha de Cuidados em PDF</h3>
+            <p class="text-slate-600 max-w-sm leading-relaxed">Gere um documento profissional com instruções diárias, contatos de emergência e histórico para entregar ao Pet Sitter ou Veterinário. Tudo à distância de um clique.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+           <div class="absolute -right-10 -top-10 bg-indigo-50 w-64 h-64 rounded-full blur-3xl group-hover:bg-indigo-100 transition-colors"></div>
+           <div class="relative z-10">
+            <div class="bg-indigo-100 text-indigo-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Doses Exatas</h3>
+            <p class="text-slate-600 leading-relaxed">O sistema calcula o horário da próxima medicação automaticamente. Nunca mais pule uma dose importante.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+          <div class="absolute -right-10 -top-10 bg-emerald-50 w-64 h-64 rounded-full blur-3xl group-hover:bg-emerald-100 transition-colors"></div>
+          <div class="relative z-10">
+           <div class="bg-emerald-100 text-emerald-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+           </div>
+           <h3 class="text-xl font-bold text-slate-900 mb-3">Dashboard Financeiro</h3>
+           <p class="text-slate-600 leading-relaxed">Controle gastos com ração, consultas e brinquedos. Entenda exatamente para onde o seu dinheiro está indo.</p>
+         </div>
+       </div>
+
+       <div class="md:col-span-2 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group flex flex-col justify-center">
+        <div class="absolute -right-10 -top-10 bg-amber-50 w-64 h-64 rounded-full blur-3xl group-hover:bg-amber-100 transition-colors"></div>
+        <div class="relative z-10">
+          <div class="bg-amber-100 text-amber-600 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-900 mb-3">Almoxarifado Integrado</h3>
+          <p class="text-slate-600 max-w-md leading-relaxed">Ração acabando no meio da semana? Registre suas compras de petiscos, suplementos e forrações, mantendo seu estoque e sua despensa sempre organizados.</p>
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-white relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-6 relative z-10">
+      <div class="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+        
+        <div class="relative z-20 max-w-3xl mx-auto">
+          <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">Pare de confiar na memória.<br>Confie no sistema.</h2>
+          <p class="text-slate-300 text-xl mb-10">A tranquilidade da sua família e o bem-estar dos seus pets merecem uma plataforma dedicada. Junte-se a nós hoje.</p>
+          
+          <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a routerLink="/register" class="w-full sm:w-auto bg-indigo-500 text-white text-lg font-bold px-10 py-5 rounded-full shadow-lg shadow-indigo-500/30 hover:bg-indigo-400 hover:scale-105 transition-all">
+              Criar Minha Conta Grátis
+            </a>
+            <p class="text-slate-400 text-sm sm:hidden mt-4">Leva menos de 1 minuto.</p>
+          </div>
+          <p class="hidden sm:block text-slate-400 text-sm mt-6">✓ Sem cartão de crédito &nbsp;&nbsp; ✓ Acesso imediato &nbsp;&nbsp; ✓ Leva menos de 1 minuto</p>
+        </div>
+
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500 rounded-full blur-[120px] opacity-50 z-10 pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-violet-600 rounded-full blur-[120px] opacity-40 z-10 pointer-events-none"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-200 bg-slate-50 py-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-2">
+        <div class="bg-indigo-100 p-1.5 rounded-lg">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+        </div>
+        <span class="text-slate-800 font-bold tracking-tight">My Pet Health</span>
+      </div>
+      <p class="text-slate-500 text-sm text-center md:text-left">&copy; 2026 My Pet Health. Todos os direitos reservados.</p>
+      <div class="flex gap-6 text-sm font-medium text-slate-500">
+        <a routerLink="/login" class="hover:text-indigo-600 transition-colors">Entrar</a>
+        <a href="#" class="hover:text-indigo-600 transition-colors">Privacidade</a>
+      </div>
+    </div>
+  </footer>
+
+</div>

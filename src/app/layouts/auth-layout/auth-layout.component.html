@@ -1,14 +1,33 @@
-<div class="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-  <div class="w-full max-w-md">
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-slate-800 tracking-tight">My Pet Health</h1>
-      <p class="text-slate-500 mt-5">Sistema de gestão de saúde e controle de gastos para seus pets</p>
+<div class="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden selection:bg-indigo-100 selection:text-indigo-900">
+  
+  <div class="absolute inset-0" style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 32px 32px; opacity: 0.3;"></div>
+
+  <div class="w-full max-w-md relative z-10 flex flex-col justify-center">
+    
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center gap-2 mb-2">
+        <div class="bg-indigo-600 p-2.5 rounded-xl shadow-md shadow-indigo-200">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">My Pet Health</h1>
+      </div>
+      <p class="text-slate-500 font-medium text-sm">A plataforma definitiva para a saúde do seu pet</p>
     </div>
-    <div class="bg-white rounded-2xl shadow-md p-8 border border-slate-100">
+    
+    <div class="w-full relative z-20">
       <router-outlet />
     </div>
-    <p class="text-center text-slate-400 text-sm mt-6">
-      Desenvolvido por <a href="https://www.instagram.com/rafaelbrinck_" class="text-indigo-600 hover:text-indigo-700 font-medium">Rafael Brinckmann</a>
-    </p>
+    
+    <div class="mt-8 text-center relative z-10">
+      <p class="text-slate-400 text-sm font-medium">
+        Desenvolvido com 💜 por 
+        <a href="https://www.instagram.com/rafaelbrinck_" target="_blank" class="text-indigo-500 hover:text-indigo-600 transition-colors relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:-bottom-1 after:left-0 after:bg-indigo-500 after:origin-bottom-right after:transition-transform hover:after:scale-x-100 hover:after:origin-bottom-left">
+          Rafael Brinckmann
+        </a>
+      </p>
+    </div>
+
   </div>
 </div>

@@ -4,6 +4,14 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 export const routes: Routes = [
+  // 1. Landing Page (Página Inicial Pública)
+  {
+    path: '',
+    loadComponent: () => import('./pages/landing-page/landing-page').then((m) => m.LandingPage),
+    pathMatch: 'full',
+  },
+
+  // 2. Rotas de Autenticação (Envolvidas pelo AuthLayout)
   {
     path: '',
     component: AuthLayoutComponent,
@@ -24,9 +32,11 @@ export const routes: Routes = [
           () => import('./core/guards/no-auth.guard').then((m) => m.noAuthGuard) as any,
         ],
       },
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      // Removemos o "redirectTo: 'login'" daqui para não conflitar com a Landing Page
     ],
   },
+
+  // 3. Área Administrativa (SaaS Logado)
   {
     path: 'admin',
     component: AdminLayoutComponent,
@@ -87,7 +97,7 @@ export const routes: Routes = [
             (m) => m.InventoryFormComponent,
           ),
       },
-      // rota de ficha do cuidador ligada ao pet
+      // Rota de ficha do cuidador ligada ao pet
       {
         path: 'pets/:id/caregiver',
         loadComponent: () =>
@@ -98,5 +108,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
-  { path: '**', redirectTo: 'login' },
+
+  // 4. Rota Coringa / Fallback (Se digitar um link que não existe, joga para a Landing Page)
+  { path: '**', redirectTo: '' },
 ];
