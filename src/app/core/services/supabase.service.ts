@@ -582,4 +582,18 @@ export class SupabaseService {
       return { success: false, message: e?.message ?? 'Erro desconhecido' };
     }
   }
+  // 1. Envia o e-mail de recuperação
+  async resetPasswordForEmail(email: string): Promise<void> {
+    const { error } = await this.supabase.auth.resetPasswordForEmail(email, {
+      // Redireciona de volta para a sua tela de criar nova senha
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) throw error;
+  }
+
+  // 2. Atualiza a senha (chamado na tela de reset-password)
+  async updatePassword(newPassword: string): Promise<void> {
+    const { error } = await this.supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  }
 }

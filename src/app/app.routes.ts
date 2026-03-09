@@ -32,6 +32,20 @@ export const routes: Routes = [
           () => import('./core/guards/no-auth.guard').then((m) => m.noAuthGuard) as any,
         ],
       },
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./pages/public/forgot-password/forgot-password').then(
+            (m) => m.ForgotPasswordComponent,
+          ),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./pages/public/reset-password/reset-password').then(
+            (m) => m.ResetPasswordComponent,
+          ),
+      },
       // Removemos o "redirectTo: 'login'" daqui para não conflitar com a Landing Page
     ],
   },
