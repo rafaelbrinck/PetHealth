@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -6,13 +6,17 @@ import { SupabaseService } from '../../../core/services/supabase.service';
 import { InventoryItem } from '../../../shared/models';
 import { InventoryFormComponent } from '../inventory-form/inventory-form.component';
 
+// Importações mágicas para reduzir chamadas ao banco
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 @Component({
   selector: 'app-inventory-list',
   standalone: true,
   imports: [CommonModule, FormsModule, InventoryFormComponent],
   templateUrl: './inventory-list.component.html',
 })
-export class InventoryListComponent implements OnInit {
+export class InventoryListComponent implements OnInit, OnDestroy {
   private supabase = inject(SupabaseService);
   private ngZone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
@@ -26,12 +30,33 @@ export class InventoryListComponent implements OnInit {
   selectedCategory = 'Todas';
   categoryOptions: string[] = [];
 
+  // Fila de espera para as atualizações de quantidade
+  private quantityUpdate$ = new Subject<{ item: InventoryItem; newQty: number }>();
+  private sub?: Subscription;
+
   trackById(index: number, item: InventoryItem) {
     return item.id;
   }
 
   async ngOnInit() {
     await this.loadItems();
+
+    // A mágica acontece aqui: Ouve as mudanças, mas espera 800ms de "silêncio" antes de salvar no banco
+    this.sub = this.quantityUpdate$.pipe(debounceTime(800)).subscribe(async ({ item, newQty }) => {
+      try {
+        await this.supabase.updateInventoryQuantity(item.id!, newQty);
+        // Não recarregamos a lista (loadItems) aqui para não tirar o foco do usuário enquanto ele digita (Optimistic UI)
+      } catch (e) {
+        console.error('Erro ao atualizar quantidade no banco', e);
+        // Em caso de erro, recarregamos para voltar ao valor real do banco
+        await this.loadItems();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    // Limpa a memória quando o componente for destruído
+    if (this.sub) this.sub.unsubscribe();
   }
 
   private async loadItems() {
@@ -79,21 +104,22 @@ export class InventoryListComponent implements OnInit {
     this.selectedCategory = category;
   }
 
-  trackSkeleton(index: number, item: number) {
-    return item;
+  // --- NOVAS FUNÇÕES DE QUANTIDADE ---
+
+  changeQuantity(item: InventoryItem, delta: number) {
+    const newQty = Math.max(0, item.current_quantity + delta);
+    item.current_quantity = newQty; // Atualiza a tela instantaneamente
+    this.quantityUpdate$.next({ item, newQty }); // Manda pra fila de espera
   }
 
-  async changeQuantity(item: InventoryItem, delta: number) {
-    const newQty = item.current_quantity + delta;
-    if (newQty < 0) return;
-    try {
-      await this.supabase.updateInventoryQuantity(item.id!, newQty);
-      // reload
-      await this.loadItems();
-    } catch (e) {
-      console.error('update error', e);
-    }
+  updateQuantityFromInput(item: InventoryItem, value: number) {
+    // Caso o usuário apague tudo no input, o valor vira 0 em vez de null
+    const newQty = value === null || value === undefined || value < 0 ? 0 : value;
+    item.current_quantity = newQty; // Atualiza a tela instantaneamente
+    this.quantityUpdate$.next({ item, newQty }); // Manda pra fila de espera
   }
+
+  // -----------------------------------
 
   addItem() {
     this.router.navigate(['/admin/inventory/new']);
