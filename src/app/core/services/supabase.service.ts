@@ -258,6 +258,8 @@ export class SupabaseService {
     if (!user) {
       throw new Error('Usuário não autenticado');
     }
+    input.species = input.species.toLowerCase();
+    input.species = input.species.charAt(0).toUpperCase() + input.species.slice(1);
 
     const payload = {
       name: input.name,
@@ -278,6 +280,10 @@ export class SupabaseService {
   }
 
   async updatePet(id: string, changes: Partial<Pet>): Promise<Pet> {
+    changes.species = changes.species?.toLowerCase() ?? changes.species;
+    if (changes.species) {
+      changes.species = changes.species.charAt(0).toUpperCase() + changes.species.slice(1);
+    }
     const { data, error } = await this.supabase
       .from('pets')
       .update(changes)
